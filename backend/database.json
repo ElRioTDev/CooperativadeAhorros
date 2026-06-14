@@ -1,0 +1,76 @@
+{
+  "usuarios": [
+    {
+      "id": "usr_1",
+      "nombre": "Juan Pérez",
+      "email": "usuario@ejemplo.com",
+      "password": "hashed_password_123456",
+      "role": "admin",
+      "fecha_registro": "2026-06-13T12:00:00Z"
+    },
+    {
+      "id": "08c7ae86-7d31-4ddf-9202-2999c21a0770",
+      "nombre": "pepito",
+      "email": "500@gmail.com",
+      "password": "123456",
+      "role": "usuario",
+      "fecha_registro": "2026-06-14T02:16:51.657Z"
+    }
+  ],
+  "ahorros": [
+    {
+      "id_usuario": "usr_1",
+      "saldo_disponible": 1500,
+      "meta_ahorro": 5000,
+      "saldo_ahorrado": 800
+    },
+    {
+      "id_usuario": "08c7ae86-7d31-4ddf-9202-2999c21a0770",
+      "saldo_disponible": 950,
+      "meta_ahorro": 0,
+      "saldo_ahorrado": 0
+    }
+  ],
+  "transacciones": [
+    {
+      "id": "tx_101",
+      "id_usuario": "usr_1",
+      "tipo": "ingreso",
+      "monto": 2000,
+      "fecha": "2026-06-13T12:30:00Z",
+      "descripcion": "Depósito de nómina"
+    },
+    {
+      "id": "tx_102",
+      "id_usuario": "usr_1",
+      "tipo": "ahorro",
+      "monto": 500,
+      "fecha": "2026-06-13T13:00:00Z",
+      "descripcion": "Traslado a fondo de ahorro"
+    },
+    {
+      "id": "tx_a1548341",
+      "id_usuario": "08c7ae86-7d31-4ddf-9202-2999c21a0770",
+      "tipo": "ingreso",
+      "monto": 500,
+      "fecha": "2026-06-14T02:38:04.037Z",
+      "descripcion": "Deposito"
+    },
+    {
+      "id": "tx_6ef7c6d1",
+      "id_usuario": "08c7ae86-7d31-4ddf-9202-2999c21a0770",
+      "tipo": "ingreso",
+      "monto": 500,
+      "fecha": "2026-06-14T02:39:52.835Z",
+      "descripcion": "Deposito"
+    },
+    {
+      "id": "tx_f7e986f9",
+      "id_usuario": "08c7ae86-7d31-4ddf-9202-2999c21a0770",
+      "tipo": "egreso",
+      "monto": 50,
+      "fecha": "2026-06-14T02:40:10.726Z",
+      "descripcion": "Egreso"
+    }
+  ]
+}
