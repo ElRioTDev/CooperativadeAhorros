@@ -65,7 +65,7 @@ export const registerUser = async (req, res) => {
         // 1. Insertar el usuario
         await connection.query(
             'INSERT INTO usuarios (id, nombre, email, password, role) VALUES (?, ?, ?, ?, ?)',
-            [nuevoId, nombre, email, password, 'usuario']
+            [nuevoId, nombre, email, password, 'cliente']
         );
 
         // 2. Insertar su registro de ahorros inicial (vinculado por llave foránea)

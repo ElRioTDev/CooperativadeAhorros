@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function DashboardAhorros() {
@@ -7,9 +8,12 @@ function DashboardAhorros() {
   const [formTx, setFormTx] = useState({ tipo: 'ingreso', monto: '', descripcion: '' });
   const [error, setError] = useState('');
 
-  // 🛠️ Recuperamos el usuario de forma global en el componente para usar su rol
+  // Inicializamos el hook de navegación
+  const navigate = useNavigate();
+
+  // Recuperamos el usuario de forma global en el componente para usar su rol
   const usuarioLogueado = JSON.parse(localStorage.getItem('user')) || {};
-  
+
   // Condición de seguridad frontend
   const esPersonalAutorizado = usuarioLogueado.role === 'admin' || usuarioLogueado.role === 'socio';
 
@@ -33,30 +37,35 @@ function DashboardAhorros() {
   }, []);
 
   const handleTransaccion = async (e) => {
-  e.preventDefault();
-  setError('');
-  const usuarioLogueado = JSON.parse(localStorage.getItem('user'));
+    e.preventDefault();
+    setError('');
+    const usuarioLogueado = JSON.parse(localStorage.getItem('user'));
 
-  try {
-  
-    const response = await fetch('http://localhost:5000/ahorros/transacciones', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...formTx, id_usuario: usuarioLogueado.id })
-    });
-    
-    const data = await response.json();
-    if (!response.ok) throw new Error(data.message);
+    try {
+      const response = await fetch('http://localhost:5000/ahorros/transacciones', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...formTx, id_usuario: usuarioLogueado.id })
+      });
 
-    setFormTx({ tipo: 'ingreso', monto: '', descripcion: '' });
-    cargarDatos();
-  } catch (err) {
-    setError(err.message);
-  }
-};
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.message);
+
+      setFormTx({ tipo: 'ingreso', monto: '', descripcion: '' });
+      cargarDatos();
+    } catch (err) {
+      setError(err.message);
+    }
+  };
 
   const handlePrintPDF = () => {
     window.print();
+  };
+
+  // 3. Función para cerrar sesión
+  const handleLogout = () => {
+    localStorage.removeItem('user'); // Borramos los datos del usuario
+    navigate('/'); // Redirigimos al Login (ajusta la ruta '/' si tu login está en otra, ej: '/login')
   };
 
   return (
@@ -78,9 +87,16 @@ function DashboardAhorros() {
             {/* Indicador visual de rol */}
             <span className="badge bg-dark">Rol: {usuarioLogueado.role?.toUpperCase()}</span>
           </div>
-          <button className="btn btn-secondary no-print" onClick={handlePrintPDF}>
-             Imprimir Reporte (PDF)
-          </button>
+
+          {/* 4. Agrupamos los botones en un div para que queden juntos a la derecha */}
+          <div className="d-flex gap-2 no-print">
+            <button className="btn btn-secondary" onClick={handlePrintPDF}>
+              Imprimir Reporte (PDF)
+            </button>
+            <button className="btn btn-danger" onClick={handleLogout}>
+              Cerrar Sesión
+            </button>
+          </div>
         </div>
 
         {/* Cajas de Estados de Cuenta */}
@@ -111,7 +127,7 @@ function DashboardAhorros() {
           </div>
         </div>
 
-        {/* 🛡️ CORRECCIÓN: Renderizado condicional basado en privilegios de rol */}
+        {/* Renderizado condicional basado en privilegios de rol */}
         {esPersonalAutorizado ? (
           <div className="card mb-4 no-print shadow-sm">
             <div className="card-header bg-light"><b>Registrar Movimiento (Ventanilla / Caja)</b></div>
@@ -119,10 +135,10 @@ function DashboardAhorros() {
               {error && <div className="alert alert-danger">{error}</div>}
               <form onSubmit={handleTransaccion} className="row g-3 align-items-center">
                 <div className="col-md-3">
-                  <select 
-                    className="form-select" 
-                    value={formTx.tipo} 
-                    onChange={(e) => setFormTx({...formTx, tipo: e.target.value})}
+                  <select
+                    className="form-select"
+                    value={formTx.tipo}
+                    onChange={(e) => setFormTx({ ...formTx, tipo: e.target.value })}
                   >
                     <option value="ingreso">Ingreso</option>
                     <option value="egreso">Egreso (Gasto)</option>
@@ -130,24 +146,24 @@ function DashboardAhorros() {
                   </select>
                 </div>
                 <div className="col-md-3">
-                  <input 
-                    type="number" 
+                  <input
+                    type="number"
                     step="0.01"
-                    className="form-control" 
-                    placeholder="Monto $" 
-                    value={formTx.monto} 
-                    onChange={(e) => setFormTx({...formTx, monto: e.target.value})}
-                    required 
+                    className="form-control"
+                    placeholder="Monto $"
+                    value={formTx.monto}
+                    onChange={(e) => setFormTx({ ...formTx, monto: e.target.value })}
+                    required
                   />
                 </div>
                 <div className="col-md-4">
-                  <input 
-                    type="text" 
-                    className="form-control" 
-                    placeholder="Descripción breve..." 
-                    value={formTx.descripcion} 
-                    onChange={(e) => setFormTx({...formTx, descripcion: e.target.value})}
-                    required 
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Descripción breve..."
+                    value={formTx.descripcion}
+                    onChange={(e) => setFormTx({ ...formTx, descripcion: e.target.value })}
+                    required
                   />
                 </div>
                 <div className="col-md-2">
