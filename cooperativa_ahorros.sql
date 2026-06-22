@@ -8,7 +8,7 @@ CREATE TABLE usuarios (
     nombre VARCHAR(100) NOT NULL,
     email VARCHAR(150) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
-    role ENUM('admin', 'usuario') DEFAULT 'usuario',
+    role ENUM('admin', 'socio', 'cliente') DEFAULT 'cliente',
     fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
 
