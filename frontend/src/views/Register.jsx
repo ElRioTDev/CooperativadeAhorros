@@ -7,7 +7,8 @@ function Register() {
     nombre: '', 
     email: '', 
     password: '', 
-    confirmPassword: '' 
+    confirmPassword: '',
+    ahorroInicial: '' // 🛠️ Nuevo campo de estado
   });
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -22,7 +23,6 @@ function Register() {
     setError('');
     setSuccess('');
 
-    
     if (formData.password !== formData.confirmPassword) {
       setError('Las contraseñas no coinciden.');
       return;
@@ -35,19 +35,16 @@ function Register() {
         body: JSON.stringify({
           nombre: formData.nombre,
           email: formData.email,
-          password: formData.password
+          password: formData.password,
+          ahorroInicial: formData.ahorroInicial // 🛠️ Enviamos el monto al backend
         }),
       });
 
       const data = await response.json();
+      if (!response.ok) throw new Error(data.message || 'Error al registrar el usuario');
 
-      if (!response.ok) {
-        throw new Error(data.message || 'Error al registrar el usuario');
-      }
-
-      setSuccess('¡Registro exitoso! Redirigiendo al login...');
+      setSuccess('¡Registro exitoso con cuenta de ahorros activa! Redirigiendo...');
       
-
       setTimeout(() => {
         navigate('/login');
       }, 2000);
@@ -59,7 +56,7 @@ function Register() {
 
   return (
     <div className="container d-flex justify-content-center align-items-center min-vh-100">
-      <div className="card shadow-lg p-4" style={{ width: '100%', maxWidth: '450px' }}>
+      <div className="card shadow-lg p-4" style={{ width: '100%', maxWidth: '480px' }}>
         <div className="card-body">
           <h2 className="card-title text-center mb-4">Crear Cuenta</h2>
           
@@ -78,6 +75,7 @@ function Register() {
                 required 
               />
             </div>
+            
             <div className="mb-3">
               <label className="form-label">Correo Electrónico</label>
               <input 
@@ -89,6 +87,22 @@ function Register() {
                 required 
               />
             </div>
+
+            {/* 🛠️ NUEVO CAMPO: Depósito o Ahorro inicial de apertura */}
+            <div className="mb-3">
+              <label className="form-label">Monto de Apertura ($ - Opcional)</label>
+              <input 
+                type="number" 
+                name="ahorroInicial"
+                step="0.01"
+                min="0"
+                className="form-control" 
+                placeholder="Ej. 50.00 (Dejar vacío para 0.00)" 
+                onChange={handleChange}
+              />
+              <div className="form-text text-muted">Este saldo se asignará directamente a tu Saldo Disponible.</div>
+            </div>
+
             <div className="row">
               <div className="col-md-6 mb-3">
                 <label className="form-label">Contraseña</label>
@@ -113,6 +127,7 @@ function Register() {
                 />
               </div>
             </div>
+
             <div className="d-grid gap-2 mt-4">
               <button type="submit" className="btn btn-success btn-lg">
                 Registrarse
