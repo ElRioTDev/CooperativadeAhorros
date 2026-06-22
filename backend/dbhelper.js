@@ -1,27 +1,26 @@
-import fs from 'fs/promises';
-import path from 'path';
+import mysql from 'mysql2/promise';
 
+// Configuración de la conexión a la base de datos
+// Nota: En producción, es mejor usar variables de entorno (process.env)
+const pool = mysql.createPool({
+    host: 'localhost',
+    user: 'root', // Cambia por tu usuario de MySQL
+    password: 'query_sql', // Cambia por tu contraseña de MySQL
+    database: 'cooperativa_ahorros',
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0
+});
 
-const dbPath = path.resolve('database.json');
-
-
-export const readDB = async () => {
+// Función auxiliar para comprobar la conexión al iniciar el servidor (opcional pero recomendada)
+export const testDBConnection = async () => {
     try {
-        const data = await fs.readFile(dbPath, 'utf-8');
-        return JSON.parse(data);
+        const connection = await pool.getConnection();
+        console.log("Conexión exitosa a MySQL: cooperativa_ahorros");
+        connection.release();
     } catch (error) {
-        console.error("Error al leer la base de datos JSON:", error);
-        return null;
+        console.error("Error al conectar con la base de datos MySQL:", error);
     }
 };
 
-
-export const writeDB = async (data) => {
-    try {
-        await fs.writeFile(dbPath, JSON.stringify(data, null, 2), 'utf-8');
-        return true;
-    } catch (error) {
-        console.error("Error al guardar en la base de datos JSON:", error);
-        return false;
-    }
-};
+export default pool;

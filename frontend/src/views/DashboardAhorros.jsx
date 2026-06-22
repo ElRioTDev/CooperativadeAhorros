@@ -85,7 +85,7 @@ function DashboardAhorros() {
             <div className="card text-white bg-primary mb-3">
               <div className="card-body">
                 <h5 className="card-title">Saldo Disponible</h5>
-                <h3>${ahorro.saldo_disponible.toFixed(2)}</h3>
+                <h3>${Number(ahorro.saldo_disponible).toFixed(2)}</h3>
               </div>
             </div>
           </div>
@@ -93,7 +93,7 @@ function DashboardAhorros() {
             <div className="card text-white bg-success mb-3">
               <div className="card-body">
                 <h5 className="card-title">Ahorrado</h5>
-                <h3>${ahorro.saldo_ahorrado.toFixed(2)}</h3>
+                <h3>${Number(ahorro.saldo_ahorrado).toFixed(2)}</h3>
               </div>
             </div>
           </div>
@@ -101,7 +101,7 @@ function DashboardAhorros() {
             <div className="card text-white bg-info mb-3">
               <div className="card-body">
                 <h5 className="card-title">Meta de Ahorro</h5>
-                <h3>${ahorro.meta_ahorro.toFixed(2)}</h3>
+                <h3>${Number(ahorro.meta_ahorro).toFixed(2)}</h3>
               </div>
             </div>
           </div>
@@ -176,7 +176,7 @@ function DashboardAhorros() {
                         </span>
                       </td>
                       <td>{tx.descripcion}</td>
-                      <td>${tx.monto.toFixed(2)}</td>
+                      <td>${Number(tx.monto).toFixed(2)}</td>
                     </tr>
                   ))
                 )}
