@@ -15,6 +15,14 @@
       "password": "123456",
       "role": "usuario",
       "fecha_registro": "2026-06-14T02:16:51.657Z"
+    },
+    {
+      "id": "c2a2e4b7-ac94-4ccd-9884-18f47636df4b",
+      "nombre": "juan",
+      "email": "juan@gmail.com",
+      "password": "123qwe",
+      "role": "usuario",
+      "fecha_registro": "2026-06-22T03:15:06.068Z"
     }
   ],
   "ahorros": [
@@ -27,6 +35,12 @@
     {
       "id_usuario": "08c7ae86-7d31-4ddf-9202-2999c21a0770",
       "saldo_disponible": 950,
+      "meta_ahorro": 0,
+      "saldo_ahorrado": 0
+    },
+    {
+      "id_usuario": "c2a2e4b7-ac94-4ccd-9884-18f47636df4b",
+      "saldo_disponible": 1000,
       "meta_ahorro": 0,
       "saldo_ahorrado": 0
     }
@@ -71,6 +85,14 @@
       "monto": 50,
       "fecha": "2026-06-14T02:40:10.726Z",
       "descripcion": "Egreso"
+    },
+    {
+      "id": "tx_eda50449",
+      "id_usuario": "c2a2e4b7-ac94-4ccd-9884-18f47636df4b",
+      "tipo": "ingreso",
+      "monto": 1000,
+      "fecha": "2026-06-22T03:15:35.942Z",
+      "descripcion": "Deposito inicial"
     }
   ]
 }
